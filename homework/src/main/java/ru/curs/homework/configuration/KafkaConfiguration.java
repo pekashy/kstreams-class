@@ -1,5 +1,6 @@
 package ru.curs.homework.configuration;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.errors.LogAndContinueExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,8 @@ import org.springframework.kafka.config.KafkaStreamsConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static ru.curs.homework.configuration.TopologyConfiguration.*;
 
 @Configuration
 public class KafkaConfiguration {
@@ -25,5 +28,19 @@ public class KafkaConfiguration {
         return streamsConfig;
     }
 
+    @Bean
+    public NewTopic betAmountsForBettor() {
+        return new NewTopic(BETTOR_AMOUNTS, 10, (short) 1);
+    }
+
+    @Bean
+    public NewTopic betAmountsForTeam() {
+        return new NewTopic(TEAM_AMOUNTS, 10, (short) 1);
+    }
+
+    @Bean
+    public NewTopic possibleFraudTopic() {
+        return new NewTopic(POSSIBLE_FRAUDS, 10, (short) 1);
+    }
 
 }

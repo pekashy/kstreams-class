@@ -22,6 +22,7 @@ public class SumOfBetsForTeamTransformer implements Transformer<String, Bet, Key
 
     @Override
     public KeyValue<String, Long> transform(String match, Bet bet) {
+        // System.out.println(match); // To check that data is actually passes through service
         String wonTeam = getWonTeam(bet);
         long teamBetSum = Optional
                 .ofNullable(stateStore.get(wonTeam))
