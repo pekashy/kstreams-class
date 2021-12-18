@@ -67,7 +67,6 @@ public class TestTopology {
     }
 
     @Test
-    @Disabled
     void testBettorAmounts() {
         placeBet(Bet.builder().bettor("John").match("A-B").outcome(Outcome.A).amount(100).build());
         placeBet(Bet.builder().bettor("Mary").match("C-D").outcome(Outcome.D).amount(50).build());
@@ -83,16 +82,18 @@ public class TestTopology {
     }
 
     @Test
-    @Disabled
     void testTeamAmounts() {
         placeBet(Bet.builder().bettor("John").match("A-B").outcome(Outcome.A).amount(100).build());
         placeBet(Bet.builder().bettor("Mary").match("B-A").outcome(Outcome.H).amount(50).build());
         placeBet(Bet.builder().bettor("John").match("A-C").outcome(Outcome.D).amount(10).build());
         placeBet(Bet.builder().bettor("John").match("C-A").outcome(Outcome.A).amount(30).build());
+        placeBet(Bet.builder().bettor("Lena").match("C-A").outcome(Outcome.A).amount(30).build());
+        placeBet(Bet.builder().bettor("Lena").match("D-A").outcome(Outcome.H).amount(30).build());
 
         Map<String, Long> expected = new HashMap<>();
         expected.put("B", 150L);
-        expected.put("A", 30L);
+        expected.put("A", 60L);
+        expected.put("D", 30L);
 
         Map<String, Long> actual = outputTeamAmountsTopic.readKeyValuesToMap();
 
@@ -100,7 +101,6 @@ public class TestTopology {
     }
 
     @Test
-    @Disabled
     void testFraud() {
         long currentTimestamp = System.currentTimeMillis();
         Score score = new Score().goalHome();
